@@ -47,10 +47,17 @@ submit.onclick = function(){
         count: count.value,
         category: category.value,
     }
+    if(newProduct.count > 1){
+        for(let i=0; i<newProduct.count; i++){
+            productData.push(newProduct); // pushing new product information in the array
 
-    // pushing new product information in the array
+        }
+    }else{
+        productData.push(newProduct); // pushing new product information in the array
+    }
 
-    productData.push(newProduct);
+
+    
 
     // saving data in the local storage
     localStorage.setItem('product', JSON.stringify(productData));
@@ -97,6 +104,15 @@ function displayData(){
     
     
     document.getElementById('tbody').innerHTML = table;
+    let btnDelete = document.getElementById('deleteAll');
+    if(productData.length > 0){
+        btnDelete.innerHTML = `
+        <button onclick="deleteAll()">Delete All</button>
+        
+        `
+    }else{
+        btnDelete.innerHTML = '';
+    }
 
 }
 displayData()
@@ -105,13 +121,21 @@ displayData()
 
 // delte the product
 function deleteData(i){
-    
+
     productData.splice(i,1)
     localStorage.product = JSON.stringify(productData);
     displayData()
 }
+// delete all products 
+function deleteAll(){
+    localStorage.clear();
+    productData.splice(0);
+    displayData();
+}
+
 
 // adding unlimited proudcts (count)
+
 // update the product
 // searching 
 // checking data 
