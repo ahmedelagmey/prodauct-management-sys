@@ -47,14 +47,16 @@ submit.onclick = function(){
         count: count.value,
         category: category.value,
     }
+
     // pushing new product information in the array
 
     productData.push(newProduct);
 
     // saving data in the local storage
-    localStorage.setItem('product', JSON.stringify(productData)) 
+    localStorage.setItem('product', JSON.stringify(productData));
     
-    clearData();
+    clearData()
+    displayData()
 }
 
 // clear inputs after saving data
@@ -69,7 +71,37 @@ function clearData(){
     category.value = '';
 }
 
-// display product info (read the data)
+//display product info (read the data)
+function displayData(){
+    let table = '';
+    for(i=0; i<productData.length; i++){
+        table += `
+        <tr>
+        <td>${i}</td>
+        <td>${productData[i].title}</td>
+        <td>${productData[i].price}</td>
+        <td>${productData[i].taxes}</td>
+        <td>${productData[i].ads}</td>
+        <td>${productData[i].discount}</td>
+        <td>${productData[i].total}</td>
+        <td>${productData[i].category}</td>
+
+        <td><button id="update">update</button></td>
+        <td><button id="delete">delete</button></td>
+
+
+        </tr>
+        
+        `
+    }
+    
+    
+    document.getElementById('tbody').innerHTML = table;
+
+}
+displayData()
+
+ 
 // adding unlimited proudcts (count)
 // delte the product
 // update the product
