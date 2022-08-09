@@ -87,7 +87,7 @@ function displayData(){
         <td>${productData[i].category}</td>
 
         <td><button id="update">update</button></td>
-        <td><button id="delete">delete</button></td>
+        <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
 
 
         </tr>
@@ -102,8 +102,16 @@ function displayData(){
 displayData()
 
  
-// adding unlimited proudcts (count)
+
 // delte the product
+function deleteData(i){
+    
+    productData.splice(i,1)
+    localStorage.product = JSON.stringify(productData);
+    displayData()
+}
+
+// adding unlimited proudcts (count)
 // update the product
 // searching 
 // checking data 
