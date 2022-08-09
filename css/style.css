@@ -27,12 +27,14 @@ input{
     border-radius: 10px;
     padding: 5px;
     background: #111;
-    color: #fff;
+    color: rgb(255, 255, 255);
+    transition: .5s;
+    font-size: large;
     
 }
 input:focus{
-    background: blue;
-    transform: scale(1.2);
+    background: rgb(58, 57, 57);
+    transform: scale(1.1);
 
 }
 .price input{
@@ -40,8 +42,10 @@ input:focus{
 }
 #total{
     background: rgb(208, 22, 22);
-    padding: 6px 3px;
+    padding: 8px 5px;
     border-radius: 4px;
+    color: #fff;
+    font-size: large;
 }
 #total::before{
     content: 'Total';
