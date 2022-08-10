@@ -40,14 +40,14 @@ submit.onclick = function(){
 
     // create new product object
     let newProduct = {
-        title: title.value,
+        title: title.value.toLowerCase(),
         price: price.value,
         ads: ads.value,
         taxes: taxes.value,
         discount: discount.value,
         total: total.innerHTML,
         count: count.value,
-        category: category.value,
+        category: category.value.toLowerCase(),
     }
     if(mood === 'create'){
         if(newProduct.count > 1){
@@ -168,4 +168,78 @@ function updateData(i){
     })
 }
 // searching 
-// checking data 
+let searchMood = 'title';
+function getSearchMood(id){
+
+    let search = document.getElementById('search');
+
+    if( id == 'searchTitle'){
+        searchMood = 'title';
+        search.placeholder = 'search by title';
+
+    }else{
+        searchMood = 'category';
+        search.placeholder = 'search by category';
+
+    }
+    search.focus();
+    search.value = '';
+    displayData();
+}
+function searchData(value){
+
+    let table = '';
+
+    if( searchMood == 'title'){
+        for(let i =0; i<productData.length; i++){
+            if(productData[i].title.includes(value.toLowerCase())){
+                table += `
+                <tr>
+                <td>${i}</td>
+                <td>${productData[i].title}</td>
+                <td>${productData[i].price}</td>
+                <td>${productData[i].taxes}</td>
+                <td>${productData[i].ads}</td>
+                <td>${productData[i].discount}</td>
+                <td>${productData[i].total}</td>
+                <td>${productData[i].category}</td>
+        
+                <td><button onclick="updateData(${i})" id="update">update</button></td>
+                <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
+        
+        
+                </tr>
+                
+                `
+            }
+        }
+
+    }else{
+        for(let i =0; i<productData.length; i++){
+            if(productData[i].category.includes(value.toLowerCase())){
+                table += `
+                <tr>
+                <td>${i}</td>
+                <td>${productData[i].title}</td>
+                <td>${productData[i].price}</td>
+                <td>${productData[i].taxes}</td>
+                <td>${productData[i].ads}</td>
+                <td>${productData[i].discount}</td>
+                <td>${productData[i].total}</td>
+                <td>${productData[i].category}</td>
+        
+                <td><button onclick="updateData(${i})" id="update">update</button></td>
+                <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
+        
+        
+                </tr>
+                
+                `
+            }
+        }
+
+
+    }
+    document.getElementById('tbody').innerHTML = table;
+
+}
