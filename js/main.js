@@ -11,6 +11,8 @@ let count = document.getElementById('count');
 let category = document.getElementById('category');
 let submit = document.getElementById('submit');
 
+let mood = 'create';
+let tmp;
 // calculating the total price 
 function calculeTotal(){
     if(price.value != ""){
@@ -47,15 +49,25 @@ submit.onclick = function(){
         count: count.value,
         category: category.value,
     }
-    if(newProduct.count > 1){
-        for(let i=0; i<newProduct.count; i++){
+    if(mood === 'create'){
+        if(newProduct.count > 1){
+            for(let i=0; i<newProduct.count; i++){
+                productData.push(newProduct); // pushing new product information in the array
+    
+            }
+        }else{
             productData.push(newProduct); // pushing new product information in the array
-
         }
-    }else{
-        productData.push(newProduct); // pushing new product information in the array
-    }
+    
 
+    }else{
+        productData[tmp] = newProduct;
+        mood = 'create';
+        submit.innerHTML = 'create';
+        count.style.display = 'block';
+
+    }
+  
 
     
 
@@ -80,6 +92,7 @@ function clearData(){
 
 //display product info (read the data)
 function displayData(){
+    calculeTotal()
     let table = '';
     for(i=0; i<productData.length; i++){
         table += `
@@ -93,7 +106,7 @@ function displayData(){
         <td>${productData[i].total}</td>
         <td>${productData[i].category}</td>
 
-        <td><button id="update">update</button></td>
+        <td><button onclick="updateData(${i})" id="update">update</button></td>
         <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
 
 
@@ -137,5 +150,22 @@ function deleteAll(){
 // adding unlimited proudcts (count)
 
 // update the product
+function updateData(i){
+    title.value = productData[i].title;
+    price.value = productData[i].price;
+    taxes.value = productData[i].taxes;
+    ads.value   = productData[i].ads;
+    discount.value = productData[i].discount;
+    calculeTotal();
+    count.style.display = 'none';
+    category.value = productData[i].category; 
+    submit.innerHTML = 'Update';
+    mood = 'update';
+    tmp = i;
+    scroll({
+        top:0,
+        behavior:'smooth',
+    })
+}
 // searching 
 // checking data 
