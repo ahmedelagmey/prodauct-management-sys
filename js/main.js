@@ -37,7 +37,6 @@ if(localStorage.product != null){
 }
 
 submit.onclick = function(){
-
     // create new product object
     let newProduct = {
         title: title.value.toLowerCase(),
@@ -49,32 +48,33 @@ submit.onclick = function(){
         count: count.value,
         category: category.value.toLowerCase(),
     }
-    if(mood === 'create'){
-        if(newProduct.count > 1){
-            for(let i=0; i<newProduct.count; i++){
+
+    if(title.value != '' && price.value != '' 
+    && category.value !='' && newProduct.count < 100){
+        if(mood === 'create'){
+            if(newProduct.count > 1){
+                for(let i=0; i<newProduct.count; i++){
+                    productData.push(newProduct); // pushing new product information in the array
+        
+                }
+            }else{
                 productData.push(newProduct); // pushing new product information in the array
-    
             }
+        
+    
         }else{
-            productData.push(newProduct); // pushing new product information in the array
+            productData[tmp] = newProduct;
+            mood = 'create';
+            submit.innerHTML = 'create';
+            count.style.display = 'block';
+    
         }
-    
-
-    }else{
-        productData[tmp] = newProduct;
-        mood = 'create';
-        submit.innerHTML = 'create';
-        count.style.display = 'block';
-
+        clearData()
     }
-  
-
-    
-
     // saving data in the local storage
     localStorage.setItem('product', JSON.stringify(productData));
-    
-    clearData()
+
+   
     displayData()
 }
 
@@ -97,7 +97,7 @@ function displayData(){
     for(i=0; i<productData.length; i++){
         table += `
         <tr>
-        <td>${i}</td>
+        <td>${i+1}</td>
         <td>${productData[i].title}</td>
         <td>${productData[i].price}</td>
         <td>${productData[i].taxes}</td>
@@ -175,13 +175,14 @@ function getSearchMood(id){
 
     if( id == 'searchTitle'){
         searchMood = 'title';
-        search.placeholder = 'search by title';
+  
 
     }else{
         searchMood = 'category';
-        search.placeholder = 'search by category';
+        
 
     }
+    search.placeholder = 'search by ' + searchMood;
     search.focus();
     search.value = '';
     displayData();
@@ -189,9 +190,10 @@ function getSearchMood(id){
 function searchData(value){
 
     let table = '';
+    for(let i =0; i<productData.length; i++){
 
     if( searchMood == 'title'){
-        for(let i =0; i<productData.length; i++){
+       
             if(productData[i].title.includes(value.toLowerCase())){
                 table += `
                 <tr>
@@ -212,10 +214,9 @@ function searchData(value){
                 
                 `
             }
-        }
+        
 
     }else{
-        for(let i =0; i<productData.length; i++){
             if(productData[i].category.includes(value.toLowerCase())){
                 table += `
                 <tr>
@@ -236,10 +237,8 @@ function searchData(value){
                 
                 `
             }
-        }
-
-
     }
     document.getElementById('tbody').innerHTML = table;
+}
 
 }
